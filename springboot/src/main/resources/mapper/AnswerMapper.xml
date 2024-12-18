@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.AnswerMapper">
+
+    <sql id="Base_Column_List">
+        id,question_id,content,user_id,time,status
+    </sql>
+
+    <sql id ="Data_Base">
+        news_db
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Answer">
+        select
+        answer.*, question.title as questionTitle, user.name as userName
+        from answer
+        left join question  on question.id = answer.question_id
+        left join user on answer.user_id = user.id
+        <where>
+            <if test="content != null"> and content like concat('%', #{content}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Answer">
+        select
+        <include refid="Base_Column_List" />
+        from answer
+        where id = #{id}
+    </select>
+    <select id="selectFrontPage" resultType="com.example.entity.Answer">
+        select
+            a.id,
+            a.content,
+            a.time as time,
+            a.likes_count as likescount,
+            u.avatar as userAvatar,
+            u.name as userName,
+            q.title,
+            q.img,
+            q.descr
+        from answer a
+                 left join user u on a.user_id = u.id
+                 left join question q on a.question_id = q.id
+        <where>
+            <if test="questionId != null">
+                and a.question_id = #{questionId}
+            </if>
+            <if test="userId != null">
+                and a.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById">
+        delete from answer
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Answer" useGeneratedKeys="true" keyProperty="id">
+        insert into answer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="questionId != null">question_id,</if>
+            <if test="content != null">content,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="time != null">time,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="questionId != null">#{questionId},</if>
+            <if test="content != null">#{content},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="time != null">#{time},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Answer">
+        update answer
+        <set>
+            <if test="questionId != null">
+                question_id = #{questionId},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateLikeCount">
+        update answer
+        set likes_count = likes_count + 1
+        where id = #{id}
+    </update>
+
+</mapper>
