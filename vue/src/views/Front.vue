@@ -14,9 +14,6 @@
             <div class="menu" :class="{ 'menu-active' : $route.path.includes(item.path) }"
                  v-for="item in menus" :key="item.path" @click="$router.push(item.path)">{{ item.text }}</div>
           </div>
-          <div class="search-box">
-            <el-input v-model="searchText" placeholder="搜索新闻" clearable></el-input>
-          </div>
         </div>
       </div>
       <div class="front-header-right">

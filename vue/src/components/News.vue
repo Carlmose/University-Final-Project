@@ -23,13 +23,6 @@ export default {
     }
   },
   methods: {
-    loadCategory() {
-      this.$request.get('/category/selectAll').then(res => {
-        if (res.code === '200') {
-          this.categoryList = res.data || []
-        }
-      })
-    },
     load(pageNum) {
       // 分页查询
       if (pageNum) this.pageNum = pageNum;
@@ -50,6 +43,13 @@ export default {
             }
           });
     },
+    loadCategory() {
+      this.$request.get('/category/selectAll').then(res => {
+        if (res.code === '200') {
+          this.categoryList = res.data || []
+        }
+      })
+    },
     loadCategoryNews(name) {
       this.category = name
       this.load(1)
@@ -62,6 +62,7 @@ export default {
 </script>
 
 <template>
+  <div>
   <div class="category-nav" v-if="type === 'default'">
     <div class="category-item"
          :class="{'category-item-active': category === null}"
@@ -105,6 +106,7 @@ export default {
           :total="total">
       </el-pagination>
     </div>
+  </div>
   </div>
 </template>
 

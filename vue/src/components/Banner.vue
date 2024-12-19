@@ -6,6 +6,18 @@ export default {
       bannerList: []
     }
   },
+  created() {
+    this.loadBanner()
+  },
+  methods: {
+    loadBanner() {
+      this.$request.get('/banner/selectAll').then(res => {
+        if (res.code === '200') {
+          this.bannerList = res.data || []
+        }
+      })
+    },
+  }
 }
 </script>
 
@@ -20,5 +32,8 @@ export default {
 </template>
 
 <style scoped>
-
+/* 轮播图 */
+.carousel-image {
+  width: 100%;
+}
 </style>
