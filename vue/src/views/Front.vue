@@ -1,20 +1,14 @@
 <template>
-  <div>
-    <div ><iframe scrolling="no" src="https://widget.tianqiapi.com/?style=tg&skin=pitaya" frameborder="0" width="470" height="40" allowtransparency="true"></iframe></div>
+  <div class="front-layout">
+<!--    <div ><iframe scrolling="no" src="https://widget.tianqiapi.com/?style=tg&skin=pitaya" frameborder="0" width="470" height="40" allowtransparency="true"></iframe></div>-->
     <!--头部-->
-    <div class="front-header">
+    <div class="front-header" :class="{boxshadow: isScrolled}">
       <div class="front-header-left">
         <img src="@/assets/imgs/logo1.png" alt="">
         <div class="title">项目前台</div>
       </div>
       <div class="front-header-center">
-        <div class="front-header-nav">
-          <div style="display: flex">
-            <!--遍历menus数组并渲染菜单，根据用户所处页面高亮对应菜单项-->
-            <div class="menu" :class="{ 'menu-active' : $route.path.includes(item.path) }"
-                 v-for="item in menus" :key="item.path" @click="$router.push(item.path)">{{ item.text }}</div>
-          </div>
-        </div>
+        <Header :header="menus"/>
       </div>
       <div class="front-header-right">
         <div v-if="!user.username">
@@ -59,18 +53,23 @@
 
 <script>
 import Footer from "@/components/Footer";
+import Header from "@/components/Header.vue";
 export default {
   name: "FrontLayout",
-  components: { Footer },
+  components: {
+    Footer,
+    Header,
+  },
   data () {
     return {
+      isScrolled: false,
       menus: [
         { text: '新闻首页', path: '/front/home' },
         { text: '热门问答', path: '/front/question' },
-        { text: '周边新闻', path: '/front/localNews' },
+        /*{ text: '周边新闻', path: '/front/localNews' },
         { text: '新闻视频', path: '/front/video' },
         { text: '意见反馈', path: '/front/feedback' },
-        { text: '系统公告', path: '/front/notice' },
+        { text: '系统公告', path: '/front/notice' },*/
       ],
       //top: '',
       //notice: [],
@@ -79,7 +78,10 @@ export default {
   },
 
   mounted() {
-
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     updateUser() {
@@ -91,6 +93,9 @@ export default {
       localStorage.removeItem("xm-user");
       this.$router.push("/login");
     },
+    handleScroll() {
+      this.isScrolled = window.scrollY > 0;
+    }
   }
 
 }
@@ -98,17 +103,5 @@ export default {
 
 <style scoped>
   @import "@/assets/css/front.css";
-  .menu {
-    padding: 0 20px;
-    color: #0551b6;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  .menu:hover:not(.menu-active) {
-    color: #fff;
-  }
-  .menu-active {
-    color: #fff;
-    background-color: #2a60c9;
-  }
+
 </style>

@@ -1,12 +1,33 @@
+.front-layout{
+    background-image: url(https://inews.gtimg.com/newsapp_bt/0/0801143742595_5186/0), url(https://inews.gtimg.com/newsapp_bt/0/0522112957925_2552/0);
+    background-position: top, top;
+    background-repeat: no-repeat, repeat-x;
+    background-size: 4800px 400px;
+    height: 100%;
+    overflow: auto;
+    min-width: 1200px;
+}
 .front-notice {
     padding: 5px 20px;
 }
 .front-header {
     display: flex;
-    height: 60px;
-    line-height: 60px;
+    position: fixed;
+    width: 100%;
+    z-index: 200;
+    height: 66px;
+    line-height: 38px;
     border-bottom: 1px solid #eee;
-    background: #91c1ff;
+}
+.front-header.boxshadow {
+    background-color: #fff;
+    background-position: top;
+    background-size: auto;
+    -webkit-box-shadow: 0 2px 16px rgba(54, 56, 79,.06);
+    box-shadow: 0 2px 16px rgba(54, 56, 79,.06);
+}
+.front-header-nav {
+    height: 100%;
 }
 .front-header-left {
     width: 300px;
@@ -32,7 +53,10 @@
 }
 .front-header-right {
     width: 200px;
-    padding-right: 20px;
+    padding: 10px 20px 0 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     text-align: right;
 }
 .front-header-dropdown {
@@ -53,6 +77,7 @@
     padding: 20px;
 }
 .main-body {
+    margin-top: 66px;
     min-height: calc(100vh - 200px);
 }
 /* ElementUI 样式覆盖 */

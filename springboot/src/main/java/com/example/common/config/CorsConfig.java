@@ -16,10 +16,10 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*"); // 1 设置访问源地址
-        corsConfiguration.addAllowedHeader("*"); // 2 设置访问源请求头
-        corsConfiguration.addAllowedMethod("*"); // 3 设置访问源请求方法
-        source.registerCorsConfiguration("/**", corsConfiguration); // 4 对接口配置跨域设置
+        corsConfiguration.addAllowedOrigin("*"); // 允许所有源地址访问
+        corsConfiguration.addAllowedHeader("*"); // 允许所有请求头
+        corsConfiguration.addAllowedMethod("*"); // 允许所有HTTP方法
+        source.registerCorsConfiguration("/**", corsConfiguration); // 将上述配置应用到所有接口
         return new CorsFilter(source);
     }
 }

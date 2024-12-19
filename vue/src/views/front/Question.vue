@@ -33,7 +33,7 @@
         <img src="@/assets/imgs/ask.png" alt="" class="answer-icon">
         <span class="answer-text">等你回答</span>
       </div>
-      <div class="answer-item card" v-for="item in noAnswerList" :key="item.id">
+      <div class="answer-item card" v-for="item in noAnswerList" :key="item.id"@click="$router.push('/front/questionDetail?id='+item.id)">
         <div class="answer-question">{{ item.title }}</div>
         <div class="answer-date">{{ item.date }}</div>
         <el-button type="primary" @click="$router.push('/front/questionDetail?id=' + item.id)" size="mini" icon="el-icon-edit">写回答</el-button>
@@ -172,8 +172,9 @@ export default {
 .answer-item {
   margin-bottom: 10px;
 }
-.answer-item:hover .answer-question {
-  color: #37f
+.answer-item:hover {
+  color: #37f;
+  cursor: pointer;
 }
 
 .answer-question {
